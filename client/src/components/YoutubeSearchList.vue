@@ -95,8 +95,11 @@ export default {
 .item-list {
   width: 1096px;
 }
-.item {
-  padding: 5px 0px;
+.item-list > .video {
+  cursor: pointer;
+}
+.video {
+  margin: 5px 0px;
 }
 .item > a,
 .item > .link {
