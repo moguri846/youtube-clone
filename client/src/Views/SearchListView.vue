@@ -3,16 +3,16 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
+import { mapState } from 'vuex';
 
-import YoutubeSearchList from "../components/YoutubeSearchList.vue";
+import YoutubeSearchList from '../components/YoutubeSearchList.vue';
 
 export default {
   props: {
     loading: Boolean,
   },
   computed: {
-    ...mapState(["searchList"]),
+    ...mapState(['searchList']),
   },
   components: {
     YoutubeSearchList,

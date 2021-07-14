@@ -3,9 +3,9 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
-import MainView from '../Views/MainView.vue';
-import SearchListView from '../Views/SearchListView.vue';
-import WatchVideoView from '../Views/WatchVideoView.vue';
+import MainView from '../views/MainView.vue';
+import SearchListView from '../views/SearchListView.vue';
+import WatchVideoView from '../views/WatchVideoView.vue';
 
 export const router = new VueRouter({
   mode: 'history',
@@ -24,7 +24,6 @@ export const router = new VueRouter({
       path: '/watch',
       name: 'watch',
       component: WatchVideoView,
-      props: true,
     },
   ],
 });
