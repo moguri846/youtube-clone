@@ -64,7 +64,7 @@ router.get("/mostPopularVideoList", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.post("/categoryList", (req, res) => {
+router.post("/recommendedList", (req, res) => {
   let url = `${baseUrl}/videos?`;
 
   const optionParams = {

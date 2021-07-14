@@ -10,12 +10,12 @@ const mostPopularVideoList = () => {
   return axios.get(`${commonUrl}/mostPopularVideoList`);
 };
 
-const categoryList = category => {
-  return axios.post(`${commonUrl}/categoryList`, { category });
+const recommendedList = category => {
+  return axios.post(`${commonUrl}/recommendedList`, { category });
 };
 
 const searchListInVideo = id => {
   return axios.post(`${commonUrl}/searchListInVideo`, { id });
 };
 
-export { searchList, mostPopularVideoList, categoryList, searchListInVideo };
+export { searchList, mostPopularVideoList, recommendedList, searchListInVideo };

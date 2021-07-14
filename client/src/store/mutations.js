@@ -8,7 +8,7 @@ export default {
   SET_SEARCH_LIST_IN_VIDEO(state, list) {
     state.searchListInVideo = list;
   },
-  SET_CATEGORY_LIST(state, list) {
-    state.categoryList = list;
+  SET_RECOMMENDED_LIST(state, list) {
+    state.recommendedList = list;
   },
 };
