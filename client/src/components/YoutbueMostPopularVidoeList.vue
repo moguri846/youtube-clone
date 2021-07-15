@@ -12,9 +12,12 @@
                 <div class="video-thumbnail" slot="video-thumbnail">
                   <img :src="video.snippet.thumbnails.medium.url" alt="썸네일" width="360" />
                 </div>
+
                 <div class="video-info" slot="video-info">
                   <div class="channel-img" slot="channel-img">
-                    <i class="fas fa-user"></i>
+                    <a :href="`https://www.youtube.com/channel/${video.channel.id}`" target="blank">
+                      <img :src="video.channel.snippet.thumbnails.default.url" :alt="video.channel.snippet.title" />
+                    </a>
                   </div>
                   <div class="video-desc" slot="video-desc">
                     <div class="video-title" slot="video-title">
@@ -55,10 +58,10 @@ export default {
       this.$store
         .dispatch('GET_SEARCH_LIST_IN_VIDEO', video.id)
         .then(({ items }) => {
-          this.$router.push({ name: 'watch', query: { v: items[0].id } });
+          console.log('MOST GET_SEARCH_LIST_IN_VIDEO 요청');
+          this.$router.push({ name: 'watch', query: { v: items[0].id }, params: { channel: video.channel } });
         })
         .catch(err => console.log(err));
-      // this.$router.push({ name: 'watch', query: { v: video.id }, params: { video } });
     },
   },
   components: {
@@ -88,12 +91,18 @@ div {
 }
 .video-info {
   display: flex;
+  margin-top: 10px;
 }
 .video-info > .channel-img {
   width: 50px;
-  height: 50px;
-  line-height: 50px;
+  padding: 5px 10px 0px 0px;
+  line-height: 36px;
   text-align: center;
+}
+.video-info > .channel-img > a > img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
 .video-info > .video-desc {
   height: 124px;

@@ -107,6 +107,23 @@ router.post("/searchListInVideo", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-const searchListInVideo = (id) => {};
+router.post("/channelInfo", (req, res) => {
+  let url = `${baseUrl}/channels?`;
+
+  const optionParams = {
+    part: "snippet, statistics",
+    id: req.body.id,
+    key: config.key,
+  };
+
+  url = commonFunc(url, optionParams);
+
+  axios
+    .get(url)
+    .then(({ data }) => {
+      return res.json({ success: true, data });
+    })
+    .catch((err) => console.log(err));
+});
 
 module.exports = router;

@@ -31,14 +31,19 @@
                 </div>
                 <div class="video-info" slot="video-info">
                   <div class="video-desc" slot="video-desc">
-                    <h2 class="video-title" slot="video-title">
+                    <h3 class="video-title" slot="video-title">
                       {{ video.snippet.title }}
-                    </h2>
-                    <h3 class="channel-title" slot="channel-title">
-                      <a :href="`https://www.youtube.com/channel/${video.snippet.channelId}`" target="blank">
-                        {{ video.snippet.channelTitle }}
-                      </a>
                     </h3>
+                    <div class="channel-img-title">
+                      <div class="channel-img">
+                        <img :src="video.channel.snippet.thumbnails.default.url" alt="video.channel.snippet.title" />
+                      </div>
+                      <h5 class="channel-title" slot="channel-title">
+                        <a :href="`https://www.youtube.com/channel/${video.snippet.channelId}`" target="blank">
+                          {{ video.snippet.channelTitle }}
+                        </a>
+                      </h5>
+                    </div>
                     <small class="video-description" slot="video-description">
                       {{ video.snippet.description }}
                     </small>
@@ -68,13 +73,12 @@ export default {
   },
   methods: {
     pushWatchPage(video) {
-      console.log('psuh');
-      console.log('video', video);
       this.$store
         .dispatch('GET_SEARCH_LIST_IN_VIDEO', video.id.videoId)
-        .then(({ items }) =>
-          this.$router.push({ name: 'watch', query: { v: items[0].id }, params: { video: items[0] } }),
-        )
+        .then(({ items }) => {
+          console.log(items[0]);
+          this.$router.push({ name: 'watch', query: { v: items[0].id }, params: { channel: video.channel } });
+        })
         .catch(err => console.log(err));
     },
   },
@@ -106,7 +110,7 @@ export default {
   display: flex;
 }
 .item > a > .channel-img {
-  width: 320px;
+  min-width: 320px;
   text-align: center;
   margin-right: 20px;
 }
@@ -118,8 +122,25 @@ export default {
   flex-direction: column;
   margin-left: 20px;
 }
-.item > .link > .video-info > .video-desc > .channel-title {
+.item > .link > .video-info > .video-desc > .channel-img-title {
+  display: flex;
+  align-items: center;
   margin: 10px 0px;
+}
+.item > .link > .video-info > .video-desc > .channel-img-title > .channel-img {
+  height: 30px;
+}
+.item > .link > .video-info > .video-desc > .channel-img-title > .channel-img > img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+}
+.item > .link > .video-info > .video-desc > .channel-img-title > .channel-title {
+  margin-left: 10px;
+  font-weight: lighter;
+}
+.channel-info {
+  padding-top: 30px;
 }
 .v-spinner {
   display: flex;
