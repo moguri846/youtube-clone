@@ -18,4 +18,8 @@ const searchListInVideo = id => {
   return axios.post(`${commonUrl}/searchListInVideo`, { id });
 };
 
-export { searchList, mostPopularVideoList, recommendedList, searchListInVideo };
+const infoChannel = ids => {
+  return axios.post(`${commonUrl}/channelInfo`, { ids });
+};
+
+export { searchList, mostPopularVideoList, recommendedList, searchListInVideo, infoChannel };

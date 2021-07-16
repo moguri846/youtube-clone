@@ -7,8 +7,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 import bus from '../utils/bus.js';
 
 export default {
@@ -22,28 +20,11 @@ export default {
     if (this.$route.params.value) {
       // input에 value 넣기
       this.searchValue = this.$route.params.value;
+
       this.dispatchFunc('GET_SEARCH_LIST', this.searchValue);
-
-      // const arr = [];
-
-      // await Promise.all(
-      //   this.$store.state.searchList.map(async item => {
-      //     const {
-      //       data: {
-      //         data: { items },
-      //       },
-      //     } = await axios.post('/api/youtube/channelInfo', { id: item.snippet.channelId });
-
-      //     arr.push({
-      //       ...item,
-      //       channel: items[0],
-      //     });
-      //   }),
-      // );
-
-      // this.$store.commit('SET_SEARCH_LIST', arr);
     }
   },
+
   methods: {
     async search() {
       if (this.searchValue !== '') {
@@ -51,51 +32,13 @@ export default {
         this.$router.push(`/search_query=${this.searchValue}`);
 
         this.dispatchFunc('GET_SEARCH_LIST', this.searchValue);
-
-        // const arr = [];
-
-        // await Promise.all(
-        //   this.$store.state.searchList.map(async item => {
-        //     const {
-        //       data: {
-        //         data: { items },
-        //       },
-        //     } = await axios.post('/api/youtube/channelInfo', { id: item.snippet.channelId });
-        //     arr.push({
-        //       ...item,
-        //       channel: items[0],
-        //     });
-        //   }),
-        // );
-        // // console.log(arr);
-
-        // this.$store.commit('SET_SEARCH_LIST', arr);
       }
     },
-    async dispatchFunc(target, value) {
-      try {
-        bus.$emit('start:spinner');
-        await this.$store.dispatch(target, value);
-
-        const arr = [];
-        await Promise.all(
-          this.$store.state.searchList.map(async item => {
-            const {
-              data: {
-                data: { items },
-              },
-            } = await axios.post('/api/youtube/channelInfo', { id: item.snippet.channelId });
-            arr.push({
-              ...item,
-              channel: items[0],
-            });
-          }),
-        );
-        this.$store.commit('SET_SEARCH_LIST', arr);
+    dispatchFunc(target, value) {
+      bus.$emit('start:spinner');
+      this.$store.dispatch(target, value).then(() => {
         bus.$emit('end:spinner');
-      } catch (err) {
-        console.log(err);
-      }
+      });
     },
   },
 };

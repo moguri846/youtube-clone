@@ -107,23 +107,27 @@ router.post("/searchListInVideo", (req, res) => {
     .catch((err) => console.log(err));
 });
 
-router.post("/channelInfo", (req, res) => {
-  let url = `${baseUrl}/channels?`;
+router.post("/channelInfo", async (req, res) => {
+  try {
+    let url = `${baseUrl}/channels?`;
 
-  const optionParams = {
-    part: "snippet, statistics",
-    id: req.body.id,
-    key: config.key,
-  };
-
-  url = commonFunc(url, optionParams);
-
-  axios
-    .get(url)
-    .then(({ data }) => {
-      return res.json({ success: true, data });
-    })
-    .catch((err) => console.log(err));
+    const channelInfo = [];
+    await Promise.all(
+      await req.body.ids.map(async (item, index) => {
+        const optionParams = {
+          part: "snippet, statistics",
+          id: item.channel,
+          key: config.key,
+        };
+        url = await commonFunc(url, optionParams);
+        const { data } = await axios.get(url);
+        channelInfo.push(data);
+      })
+    );
+    return res.json({ success: true, channel: channelInfo });
+  } catch (err) {
+    return res.json({ success: false, err });
+  }
 });
 
 module.exports = router;
