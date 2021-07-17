@@ -28,6 +28,10 @@ export default {
 <style scoped>
 .channel-info {
   display: flex;
+  border-top: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  padding: 20px 0px;
+  margin-bottom: 20px;
 }
 .channel-info > .channel-img {
   padding: 5px 15px 15px 0px;

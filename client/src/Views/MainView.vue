@@ -1,11 +1,11 @@
 <template>
-  <YoutbueMostPopularVidoeList :loading="loading"></YoutbueMostPopularVidoeList>
+  <YoutubeMostPopularVidoeList :loading="loading"></YoutubeMostPopularVidoeList>
 </template>
 
 <script>
 import bus from '../utils/bus.js';
 
-import YoutbueMostPopularVidoeList from '../components/YoutbueMostPopularVidoeList.vue';
+import YoutubeMostPopularVidoeList from '../components/YoutubeMostPopularVidoeList.vue';
 
 export default {
   props: {
@@ -21,7 +21,7 @@ export default {
     }
   },
   components: {
-    YoutbueMostPopularVidoeList,
+    YoutubeMostPopularVidoeList,
   },
 };
 </script>

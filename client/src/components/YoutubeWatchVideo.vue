@@ -4,7 +4,7 @@
       <iframe
         width="1270"
         height="720"
-        :src="`//www.youtube.com/embed/${searchListInVideo.id}`"
+        :src="`//www.youtube.com/embed/${video.id}`"
         frameborder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
@@ -14,25 +14,25 @@
     <div class="video-desc">
       <div class="video-tag">
         <ul class="tags">
-          <li v-for="(tag, index) in searchListInVideo.snippet.tags" :key="index" class="tag">#{{ tag }}</li>
+          <li v-for="(tag, index) in video.snippet.tags" :key="index" class="tag">#{{ tag }}</li>
         </ul>
       </div>
       <div class="video-title">
-        <h2>{{ searchListInVideo.snippet.title }}</h2>
+        <h2>{{ video.snippet.title }}</h2>
       </div>
       <div class="video-status">
         <div>
-          <span>조회수 {{ searchListInVideo.statistics.viewCount }}회</span>
-          <span>날짜 {{ searchListInVideo.snippet.publishedAt }} </span>
+          <span>조회수 {{ video.statistics.viewCount }}회</span>
+          <span>날짜 {{ video.snippet.publishedAt }} </span>
         </div>
         <div>
           <div class="like">
             <i class="fas fa-thumbs-up"></i>
-            {{ searchListInVideo.statistics.likeCount }}
+            {{ video.statistics.likeCount }}
           </div>
           <div class="dislike">
             <i class="fas fa-thumbs-down"></i>
-            {{ searchListInVideo.statistics.dislikeCount }}
+            {{ video.statistics.dislikeCount }}
           </div>
           <div class="share">공유</div>
           <div class="save">저장</div>
@@ -43,19 +43,14 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 export default {
-  computed: {
-    ...mapState(['searchListInVideo']),
+  props: {
+    video: Object,
   },
 };
 </script>
 
 <style scoped>
-.video-info > .video-desc {
-  padding: 10px 0px;
-}
 .video-info > .video-desc > .video-title > h2 {
   font-weight: 300;
 }
@@ -76,7 +71,6 @@ export default {
 .video-desc > .video-status {
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid #000;
   padding: 10px 0px;
 }
 .video-desc > .video-status > div:nth-of-type(2) {

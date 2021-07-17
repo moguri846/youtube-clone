@@ -6,33 +6,35 @@
     <template v-else>
       <div class="most-popular-list">
         <ul class="item-list">
-          <li v-for="(video, index) in mostPopularList" :key="index" class="video">
-            <YoutubeItem>
-              <div slot="link" @click="pushWatchPage(video)" class="link">
+          <li v-for="(mostPopular, index) in mostPopularList" :key="index" class="most-popular-video">
+            <YoutubeMostPopularVidoeItem>
+              <div slot="link" @click="pushWatchPage(mostPopular.video)" class="link">
                 <div class="video-thumbnail" slot="video-thumbnail">
-                  <img :src="video.snippet.thumbnails.medium.url" alt="썸네일" width="360" />
+                  <img :src="mostPopular.video.snippet.thumbnails.medium.url" alt="썸네일" width="360" />
                 </div>
-
                 <div class="video-info" slot="video-info">
                   <div class="channel-img" slot="channel-img">
-                    <a :href="`https://www.youtube.com/channel/${video.channel.id}`" target="blank">
-                      <img :src="video.channel.snippet.thumbnails.default.url" :alt="video.channel.snippet.title" />
+                    <a :href="`https://www.youtube.com/channel/${mostPopular.channel.id}`" target="blank">
+                      <img
+                        :src="mostPopular.channel.snippet.thumbnails.default.url"
+                        :alt="mostPopular.channel.snippet.title"
+                      />
                     </a>
                   </div>
                   <div class="video-desc" slot="video-desc">
                     <div class="video-title" slot="video-title">
-                      <span>{{ video.snippet.title }}</span>
+                      <span>{{ mostPopular.video.snippet.title }}</span>
                     </div>
                     <div class="channel-tiile" slot="channel-tiile">
-                      <span>{{ video.snippet.channelTitle }}</span>
+                      <span>{{ mostPopular.video.snippet.channelTitle }}</span>
                     </div>
                     <div class="video-status" slot="video-status">
-                      <span>조회수 {{ video.statistics.viewCount }}회</span>
+                      <span>조회수 {{ mostPopular.video.statistics.viewCount }}회</span>
                     </div>
                   </div>
                 </div>
               </div>
-            </YoutubeItem>
+            </YoutubeMostPopularVidoeItem>
           </li>
         </ul>
       </div>
@@ -44,7 +46,7 @@
 import { mapState } from 'vuex';
 
 import ClipLoader from 'vue-spinner/src/ClipLoader.vue';
-import YoutubeItem from './YoutubeItem.vue';
+import YoutubeMostPopularVidoeItem from './YoutubeItem.vue';
 
 export default {
   props: {
@@ -58,15 +60,14 @@ export default {
       this.$store
         .dispatch('GET_SEARCH_LIST_IN_VIDEO', video.id)
         .then(({ items }) => {
-          console.log('MOST GET_SEARCH_LIST_IN_VIDEO 요청');
-          this.$router.push({ name: 'watch', query: { v: items[0].id }, params: { channel: video.channel } });
+          this.$router.push({ name: 'watch', query: { v: items[0].id } });
         })
         .catch(err => console.log(err));
     },
   },
   components: {
     ClipLoader,
-    YoutubeItem,
+    YoutubeMostPopularVidoeItem,
   },
 };
 </script>
@@ -84,7 +85,7 @@ div {
 .link {
   cursor: pointer;
 }
-.video {
+.most-popular-video {
   width: 360px;
   height: 330px;
   padding: 20px 10px 10px 10px;

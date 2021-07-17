@@ -5,53 +5,53 @@
     </template>
     <template v-else>
       <ul class="item-list">
-        <li v-for="(video, index) in searchList" :key="index" class="video">
-          <YoutubeItem>
-            <template v-if="video.id.channelId">
-              <a :href="`https://www.youtube.com/channel/${video.id.channelId}`" target="blank" slot="link">
+        <li v-for="(search, index) in searchList" :key="index" class="video">
+          <YoutubeSearchItem>
+            <template v-if="search.video.id.channelId">
+              <a :href="`https://www.youtube.com/channel/${search.video.id.channelId}`" target="blank" slot="link">
                 <div class="channel-img" slot="channel-img">
-                  <img :src="video.snippet.thumbnails.medium.url" alt="채널 이미지" />
+                  <img :src="search.video.snippet.thumbnails.medium.url" alt="채널 이미지" />
                 </div>
                 <div class="channel-info" slot="channel-info">
                   <div class="channel-desc" slot="channel-desc">
                     <h2 class="channel-title">
-                      <a :href="`https://www.youtube.com/channel/${video.snippet.channelId}`" target="blank">
-                        {{ video.snippet.channelTitle }}
+                      <a :href="`https://www.youtube.com/channel/${search.video.snippet.channelId}`" target="blank">
+                        {{ search.video.snippet.channelTitle }}
                       </a>
                     </h2>
-                    <small class="channel-description">{{ video.snippet.description }}</small>
+                    <small class="channel-description">{{ search.video.snippet.description }}</small>
                   </div>
                 </div>
               </a>
             </template>
-            <template v-if="video.id.videoId">
-              <div slot="link" @click="pushWatchPage(video)" class="link">
+            <template v-if="search.video.id.videoId">
+              <div slot="link" @click="pushWatchPage(search.video)" class="link">
                 <div class="video-thumbnail" slot="video-thumbnail">
-                  <img :src="video.snippet.thumbnails.medium.url" alt="동영상 썸네일" />
+                  <img :src="search.video.snippet.thumbnails.medium.url" alt="동영상 썸네일" />
                 </div>
                 <div class="video-info" slot="video-info">
                   <div class="video-desc" slot="video-desc">
                     <h3 class="video-title" slot="video-title">
-                      {{ video.snippet.title }}
+                      {{ search.video.snippet.title }}
                     </h3>
                     <div class="channel-img-title">
                       <div class="channel-img">
-                        <img :src="video.channel.snippet.thumbnails.default.url" alt="video.channel.snippet.title" />
+                        <img :src="search.channel.snippet.thumbnails.default.url" alt="video.channel.snippet.title" />
                       </div>
                       <h5 class="channel-title" slot="channel-title">
-                        <a :href="`https://www.youtube.com/channel/${video.snippet.channelId}`" target="blank">
-                          {{ video.snippet.channelTitle }}
+                        <a :href="`https://www.youtube.com/channel/${search.video.snippet.channelId}`" target="blank">
+                          {{ search.video.snippet.channelTitle }}
                         </a>
                       </h5>
                     </div>
                     <small class="video-description" slot="video-description">
-                      {{ video.snippet.description }}
+                      {{ search.video.snippet.description }}
                     </small>
                   </div>
                 </div>
               </div>
             </template>
-          </YoutubeItem>
+          </YoutubeSearchItem>
         </li>
       </ul>
     </template>
@@ -62,7 +62,7 @@
 import { mapState } from 'vuex';
 import PacmanLoader from 'vue-spinner/src/ClipLoader.vue';
 
-import YoutubeItem from './YoutubeItem.vue';
+import YoutubeSearchItem from './YoutubeItem.vue';
 
 export default {
   props: {
@@ -76,14 +76,13 @@ export default {
       this.$store
         .dispatch('GET_SEARCH_LIST_IN_VIDEO', video.id.videoId)
         .then(({ items }) => {
-          console.log(items[0]);
           this.$router.push({ name: 'watch', query: { v: items[0].id }, params: { channel: video.channel } });
         })
         .catch(err => console.log(err));
     },
   },
   components: {
-    YoutubeItem,
+    YoutubeSearchItem,
     PacmanLoader,
   },
 };
