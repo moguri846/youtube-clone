@@ -113,17 +113,29 @@ router.post("/channelInfo", async (req, res) => {
 
     const channelInfo = [];
     await Promise.all(
-      await req.body.ids.map(async (item, index) => {
+      await req.body.ids.map(async (item) => {
         const optionParams = {
           part: "snippet, statistics",
           id: item.channel,
           key: config.key,
         };
+
         url = await commonFunc(url, optionParams);
+
         const { data } = await axios.get(url);
-        channelInfo.push(data);
+
+        channelInfo.push({
+          data,
+          index: item.index,
+        });
       })
     );
+
+    // index 기준 내림차순
+    channelInfo.sort((a, b) => {
+      return a.index - b.index;
+    });
+
     return res.json({ success: true, channel: channelInfo });
   } catch (err) {
     return res.json({ success: false, err });

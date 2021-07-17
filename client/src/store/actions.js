@@ -63,24 +63,32 @@ const channelInf = async data => {
   const channelIds = [];
   const result = [];
 
+  console.log('arr push');
+
   // 채널 아이디 channelIds에 push
-  await data.map(item => {
+  await data.map((item, index) => {
     const channelId = item.snippet.channelId;
-    channelIds.push({ channel: channelId });
+    channelIds.push({ channel: channelId, index });
   });
+
+  console.log('channel info request');
 
   // 채널 정보 요청
   const {
     data: { channel },
   } = await infoChannel(channelIds);
 
+  console.log('channel response');
+
   // 데이터 합치기
   data.map((item, index) => {
     result.push({
       ...item,
-      channel: channel[index].items[0],
+      channel: channel[index].data.items[0],
     });
   });
+
+  console.log('add channel info');
 
   return result;
 };
