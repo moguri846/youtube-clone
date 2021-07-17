@@ -2,7 +2,7 @@
   <div class="recommended-list">
     <ul>
       <li v-for="(video, index) in recommendedList" :key="index">
-        <YoutubeRecommendedItem :video="video"></YoutubeRecommendedItem>
+        <YoutubeRecommendedItem :recommended="video"></YoutubeRecommendedItem>
       </li>
     </ul>
   </div>

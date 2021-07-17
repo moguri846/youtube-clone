@@ -1,14 +1,14 @@
 <template>
-  <div class="video-item" @click="pushWatchPage(video)">
+  <div class="video-item" @click="pushWatchPage(recommended.video)">
     <div class="video-img">
-      <img :src="video.snippet.thumbnails.medium.url" width="200" height="120" alt="썸네일" />
+      <img :src="recommended.video.snippet.thumbnails.medium.url" width="200" height="120" alt="썸네일" />
     </div>
     <div class="video-info">
       <div class="video-title">
-        {{ video.snippet.title }}
+        {{ recommended.video.snippet.title }}
       </div>
       <div class="channel-title">
-        {{ video.snippet.channelTitle }}
+        {{ recommended.video.snippet.channelTitle }}
       </div>
     </div>
   </div>
@@ -17,16 +17,19 @@
 <script>
 export default {
   props: {
-    video: Object,
+    recommended: Object,
   },
   methods: {
-    pushWatchPage(video) {
-      this.$store
-        .dispatch('GET_SEARCH_LIST_IN_VIDEO', video.id)
-        .then(({ items }) => {
-          this.$router.push({ name: 'watch', query: { v: items[0].id } });
-        })
-        .catch(err => console.log(err));
+    async pushWatchPage(video) {
+      try {
+        const { items } = await this.$store.dispatch('GET_SEARCH_LIST_IN_VIDEO', video.id);
+
+        await this.$store.dispatch('GET_COMMENT_LIST', video.id);
+
+        this.$router.push({ name: 'watch', query: { v: items[0].id } });
+      } catch (err) {
+        console.log(err);
+      }
     },
   },
 };
