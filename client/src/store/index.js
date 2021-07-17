@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
     mostPopularList: [],
     searchListInVideo: [],
     recommendedList: [],
+    commentList: [],
   },
   actions,
   mutations,

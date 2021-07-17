@@ -11,4 +11,7 @@ export default {
   SET_RECOMMENDED_LIST(state, list) {
     state.recommendedList = list;
   },
+  SET_COMMENT_LIST(state, list) {
+    state.commentList = list;
+  },
 };

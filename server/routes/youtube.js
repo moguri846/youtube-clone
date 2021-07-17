@@ -142,4 +142,23 @@ router.post("/channelInfo", async (req, res) => {
   }
 });
 
+router.post("/commentList", (req, res) => {
+  let url = `${baseUrl}/commentThreads?`;
+
+  const optionParams = {
+    part: "snippet",
+    videoId: req.body.id,
+    key: config.key,
+  };
+
+  url = commonFunc(url, optionParams);
+
+  axios
+    .get(url)
+    .then(({ data }) => {
+      return res.json({ success: true, data });
+    })
+    .catch((err) => console.log(err));
+});
+
 module.exports = router;

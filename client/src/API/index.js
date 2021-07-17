@@ -22,4 +22,8 @@ const infoChannel = ids => {
   return axios.post(`${commonUrl}/channelInfo`, { ids });
 };
 
-export { searchList, mostPopularVideoList, recommendedList, searchListInVideo, infoChannel };
+const commentList = id => {
+  return axios.post(`${commonUrl}/commentList`, { id });
+};
+
+export { searchList, mostPopularVideoList, recommendedList, searchListInVideo, infoChannel, commentList };

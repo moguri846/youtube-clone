@@ -1,8 +1,9 @@
 <template>
   <div class="watch-video">
     <div class="watch-watch">
-      <YoutubeWatchVideo></YoutubeWatchVideo>
-      <YoutubeChannelInfo :channel="channel"></YoutubeChannelInfo>
+      <YoutubeWatchVideo :video="searchListInVideo.video"></YoutubeWatchVideo>
+      <YoutubeChannelInfo :channel="searchListInVideo.channel"></YoutubeChannelInfo>
+      <YoutubeCommentList></YoutubeCommentList>
     </div>
     <YoutubeRecommendedList></YoutubeRecommendedList>
   </div>
@@ -13,27 +14,24 @@ import { mapState } from 'vuex';
 
 import YoutubeWatchVideo from '../components/YoutubeWatchVideo.vue';
 import YoutubeChannelInfo from '../components/YoutubeChannelInfo.vue';
+import YoutubeCommentList from '../components/YoutubeCommentList.vue';
 import YoutubeRecommendedList from '../components/YoutubeRecommendedList.vue';
 
 export default {
-  data() {
-    return {
-      channel: {},
-    };
-  },
   async created() {
-    // 쿼리에 v가 있으면 요청
     try {
+      // 쿼리에 v가 있으면 요청
       if (this.$route.query.v && this.$store.state.searchListInVideo.length <= 0) {
-        console.log('WATCH GET_SEARCH_LIST_IN_VIDEO 요청');
         await this.$store.dispatch('GET_SEARCH_LIST_IN_VIDEO', this.$route.query.v);
         // 추천 영상 요청
-        await this.$store.dispatch('GET_RECOMMENDED_LIST', this.searchListInVideo.snippet.categoryId);
+        await this.$store.dispatch('GET_RECOMMENDED_LIST', this.searchListInVideo.video.snippet.categoryId);
+
+        await this.$store.dispatch('GET_COMMENT_LIST', this.searchListInVideo.video.id);
       } else {
-        console.log(this.$route);
-        await this.$store.dispatch('GET_RECOMMENDED_LIST', this.searchListInVideo.snippet.categoryId);
+        await this.$store.dispatch('GET_COMMENT_LIST', this.searchListInVideo.video.id);
+
+        await this.$store.dispatch('GET_RECOMMENDED_LIST', this.searchListInVideo.video.snippet.categoryId);
       }
-      this.channel = this.$route.params.channel;
     } catch (err) {
       console.log(err);
     }
@@ -44,6 +42,7 @@ export default {
   components: {
     YoutubeWatchVideo,
     YoutubeChannelInfo,
+    YoutubeCommentList,
     YoutubeRecommendedList,
   },
 };
