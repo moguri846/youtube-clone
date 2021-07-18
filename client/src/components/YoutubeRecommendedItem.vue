@@ -24,8 +24,6 @@ export default {
       try {
         const { items } = await this.$store.dispatch('GET_SEARCH_LIST_IN_VIDEO', video.id);
 
-        await this.$store.dispatch('GET_COMMENT_LIST', video.id);
-
         this.$router.push({ name: 'watch', query: { v: items[0].id } });
       } catch (err) {
         console.log(err);

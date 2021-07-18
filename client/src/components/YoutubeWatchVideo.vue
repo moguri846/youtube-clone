@@ -23,7 +23,7 @@
       <div class="video-status">
         <div>
           <span>조회수 {{ video.statistics.viewCount }}회</span>
-          <span>날짜 {{ video.snippet.publishedAt }} </span>
+          <span>날짜 {{ sliceDate }} </span>
         </div>
         <div>
           <div class="like">
@@ -46,6 +46,11 @@
 export default {
   props: {
     video: Object,
+  },
+  computed: {
+    sliceDate() {
+      return this.video.snippet.publishedAt.slice(0, 10);
+    },
   },
 };
 </script>
