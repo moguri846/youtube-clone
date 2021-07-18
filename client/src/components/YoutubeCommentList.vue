@@ -25,6 +25,6 @@ export default {
 
 <style scoped>
 .comment-item {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 </style>

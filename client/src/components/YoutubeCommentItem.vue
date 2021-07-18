@@ -71,7 +71,6 @@ export default {
   margin-right: 10px;
 }
 .comment-info > .comment-info-middle {
-  /* height: 80px; */
   margin: 10px 0px;
 }
 .comment-info > .comment-info-bottom {
@@ -82,5 +81,8 @@ export default {
 }
 .comment-info > .comment-info-bottom > div {
   margin-right: 10px;
+}
+.comment-info > .comment-info-bottom > div > .fas {
+  color: #909090;
 }
 </style>
