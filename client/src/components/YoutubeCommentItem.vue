@@ -5,15 +5,17 @@
     </div>
     <div class="comment-info">
       <div class="comment-info-top">
-        <div class="authorDisplayName">
-          <span>{{ comment.snippet.topLevelComment.snippet.authorDisplayName }}</span>
-        </div>
-        <div class="publishedAt">
-          <span>{{ sliceDate }}</span>
-        </div>
+        <span class="authorDisplayName">{{ comment.snippet.topLevelComment.snippet.authorDisplayName }}</span>
+        <span class="publishedAt">{{ sliceDate }}</span>
       </div>
       <div class="comment-info-middle">
-        <span class="textDisplay" v-html="comment.snippet.topLevelComment.snippet.textDisplay"></span>
+        <span
+          class="textDisplay"
+          ref="checkheight"
+          :class="height > 80 ? 'over' : ''"
+          v-html="comment.snippet.topLevelComment.snippet.textDisplay"
+        ></span>
+        <span class="more-textDisplay" @click="moreTextDisplay" v-show="height > 80">{{ moreText }}</span>
       </div>
       <div class="comment-info-bottom">
         <div class="likeCount">
@@ -27,12 +29,22 @@
           <span>답글</span>
         </div>
       </div>
+      <div class="more-comment" v-show="this.comment.snippet.totalReplyCount > 0">
+        <i class="fas fa-sort-down"></i>
+        <span>답글 {{ this.comment.snippet.totalReplyCount }}개 보기</span>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      height: '',
+      moreText: '자세히 보기',
+    };
+  },
   props: {
     comment: Object,
   },
@@ -41,10 +53,24 @@ export default {
       return this.comment.snippet.topLevelComment.snippet.publishedAt.slice(0, 10);
     },
     likeCount() {
-      return this.comment.snippet.topLevelComment.snippet.likeCount > 0
-        ? this.comment.snippet.topLevelComment.snippet.likeCount
-        : '';
+      const likeCount = this.comment.snippet.topLevelComment.snippet.likeCount;
+      return likeCount > 0 ? likeCount : '';
     },
+  },
+  methods: {
+    moreTextDisplay() {
+      const height = this.$refs.checkheight;
+      height.classList.toggle('active');
+      if (height.classList.value.includes('active')) {
+        this.moreText = '간략히';
+      } else {
+        this.moreText = '자세히 보기';
+      }
+    },
+  },
+  mounted() {
+    const clientHeight = this.$refs.checkheight.clientHeight;
+    this.height = clientHeight;
   },
 };
 </script>
@@ -71,7 +97,23 @@ export default {
   margin-right: 10px;
 }
 .comment-info > .comment-info-middle {
+  display: flex;
+  flex-direction: column;
   margin: 10px 0px;
+}
+.comment-info > .comment-info-middle > .textDisplay {
+  display: inline-block;
+}
+.comment-info > .comment-info-middle > .textDisplay.over {
+  height: 80px;
+  overflow: hidden;
+}
+.comment-info > .comment-info-middle > .textDisplay.active {
+  height: 100%;
+}
+.comment-info > .comment-info-middle > .more-textDisplay {
+  margin-top: 10px;
+  cursor: pointer;
 }
 .comment-info > .comment-info-bottom {
   display: flex;
@@ -81,6 +123,15 @@ export default {
 }
 .comment-info > .comment-info-bottom > div {
   margin-right: 10px;
+}
+.comment-info > .more-comment {
+  margin-top: 10px;
+}
+.comment-info > .more-comment > .fas {
+  margin-right: 10px;
+}
+.comment-info > .more-comment {
+  color: #065fd4;
 }
 .comment-info > .comment-info-bottom > div > .fas {
   color: #909090;
