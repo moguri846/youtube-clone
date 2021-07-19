@@ -148,6 +148,7 @@ router.post("/commentList", (req, res) => {
   const optionParams = {
     part: "snippet",
     videoId: req.body.id,
+    order: "relevance",
     key: config.key,
   };
 
