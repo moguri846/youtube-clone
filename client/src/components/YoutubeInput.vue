@@ -5,22 +5,24 @@
       v-model="searchValue"
       @keydown.enter="search"
       placeholder="검색"
-      @blur="closeHistory"
       @click="openHistory"
+      @blur="closeHistory"
     />
     <button @click="search"><i class="fas fa-search"></i></button>
     <span><i class="fas fa-microphone"></i></span>
-    <ul class="search-history-list" v-show="historyActive">
-      <li v-for="(history, index) in searchHistoryList" :key="index" class="history" @click="historySearch">
-        <span>{{ history }}</span>
-        <span class="delete" @click="deleteHistory(history, index)">삭제</span>
-      </li>
-    </ul>
+    <YoutubeSearchHistoryList
+      :historyList="searchHistoryList"
+      :historyActive="historyActive"
+      v-on:historySearch="historySearch"
+      v-on:deleteHistory="deleteHistory"
+    ></YoutubeSearchHistoryList>
   </div>
 </template>
 
 <script>
 import bus from '../utils/bus.js';
+
+import YoutubeSearchHistoryList from './YoutubeSearchHistoryList.vue';
 
 export default {
   data() {
@@ -34,7 +36,7 @@ export default {
     // params에 value가 있으면 dispatch
     if (this.$route.params.value) {
       // input에 value 넣기
-      this.dispatchFunc('GET_SEARCH_LIST', this.searchValue, this.searchValue);
+      this.dispatchFunc('GET_SEARCH_LIST', this.searchValue);
     }
     // localStorage에서 데이터 가져오기
     if (localStorage.length > 0) {
@@ -46,39 +48,6 @@ export default {
     }
   },
   methods: {
-    search() {
-      if (this.searchValue !== '') {
-        this.addHistory();
-
-        this.dispatchFunc('GET_SEARCH_LIST', this.searchValue, this.searchValue);
-      }
-    },
-    historySearch(e) {
-      console.log('historySearch');
-      const {
-        currentTarget: { innerText },
-      } = e;
-
-      const search = innerText.slice(0, innerText.length - 2);
-
-      this.dispatchFunc('GET_SEARCH_LIST', search, search);
-    },
-    dispatchFunc(target, value, route) {
-      // 라우터 이동
-      this.$router.push(`/search_query=${route}`);
-
-      bus.$emit('start:spinner');
-      this.$store.dispatch(target, value).then(() => {
-        bus.$emit('end:spinner');
-      });
-    },
-    addHistory() {
-      // this.searchHistoryList에 저장
-      this.searchHistoryList.push(this.searchValue);
-
-      // localStorage에 저장
-      localStorage.setItem(this.searchValue, this.searchValue);
-    },
     openHistory() {
       this.historyActive = true;
     },
@@ -87,13 +56,42 @@ export default {
         this.historyActive = false;
       }, 100);
     },
-    deleteHistory(history, index) {
+    search() {
+      if (this.searchValue !== '') {
+        this.addHistory();
+
+        this.dispatchFunc('GET_SEARCH_LIST', this.searchValue);
+      }
+    },
+    historySearch(innerText) {
+      this.dispatchFunc('GET_SEARCH_LIST', innerText);
+    },
+    addHistory() {
+      // this.searchHistoryList에 저장
+      this.searchHistoryList.push(this.searchValue);
+
+      // localStorage에 저장
+      localStorage.setItem(this.searchValue, this.searchValue);
+    },
+    deleteHistory({ history, index }) {
       // this.searchHistoryList에서 삭제
       this.searchHistoryList.splice(index, 1);
 
-      // localStorage에서 삭제
+      // // localStorage에서 삭제
       localStorage.removeItem(history);
     },
+    dispatchFunc(target, value) {
+      // 라우터 이동
+      this.$router.push(`/search_query=${value}`);
+
+      bus.$emit('start:spinner');
+      this.$store.dispatch(target, value).then(() => {
+        bus.$emit('end:spinner');
+      });
+    },
+  },
+  components: {
+    YoutubeSearchHistoryList,
   },
 };
 </script>
@@ -126,36 +124,6 @@ export default {
 }
 .search > span > .fa-microphone {
   font-size: 23px;
-}
-.search > .search-history-list {
-  width: 563px;
-  position: absolute;
-  margin-top: 10px;
-  background-color: #ffffff;
-}
-.search > .search-history-list > .history {
-  position: relative;
-  display: flex;
-  align-items: center;
-  padding-left: 10px;
-  text-align: left;
-  font-size: 18px;
-}
-.search > .search-history-list > .history:first-child {
-  margin-top: 10px;
-}
-.search > .search-history-list > .history:hover {
-  background-color: #ccc;
-}
-.search > .search-history-list > .history > .delete {
-  position: absolute;
-  right: 10px;
-  font-size: 14px;
-  color: #065fd4;
-  cursor: pointer;
-}
-.search > .search-history-list > .history > .delete:hover {
-  text-decoration: underline;
 }
 i {
   cursor: pointer;
