@@ -23,7 +23,9 @@
                   </div>
                   <div class="video-desc" slot="video-desc">
                     <div class="video-title" slot="video-title">
-                      <span>{{ mostPopular.video.snippet.title }}</span>
+                      <span>
+                        {{ checkTitleLength(mostPopular.video.snippet.title) }}
+                      </span>
                     </div>
                     <div class="channel-tiile" slot="channel-tiile">
                       <span>{{ mostPopular.video.snippet.channelTitle }}</span>
@@ -63,6 +65,10 @@ export default {
           this.$router.push({ name: 'watch', query: { v: items[0].id } });
         })
         .catch(err => console.log(err));
+    },
+    checkTitleLength(title) {
+      // 나중에는 height 기준으로 함
+      return title.length > 48 ? title.slice(0, 48) + '...' : title;
     },
   },
   components: {

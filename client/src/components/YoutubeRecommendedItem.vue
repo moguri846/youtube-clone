@@ -5,7 +5,7 @@
     </div>
     <div class="video-info">
       <div class="video-title">
-        {{ recommended.video.snippet.title }}
+        {{ checkTitleLength }}
       </div>
       <div class="channel-title">
         {{ recommended.video.snippet.channelTitle }}
@@ -18,6 +18,13 @@
 export default {
   props: {
     recommended: Object,
+  },
+  computed: {
+    checkTitleLength() {
+      // 나중에는 height 기준으로 함
+      const title = this.recommended.video.snippet.title;
+      return title.length > 25 ? title.slice(0, 25) + '...' : title;
+    },
   },
   methods: {
     async pushWatchPage(video) {
@@ -44,8 +51,7 @@ export default {
   margin-left: 10px;
 }
 .video-info > .video-title {
-  height: 40px;
-  overflow: hidden;
+  max-height: 40px;
 }
 .video-info > .channel-title {
   margin: 10px 0px;
