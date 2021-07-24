@@ -38,9 +38,11 @@ router.post("/searchList", (req, res) => {
   axios
     .get(url)
     .then(({ data }) => {
-      res.json({ success: true, data });
+      return res.json({ success: true, data });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return res.json({ success: false, err });
+    });
 });
 
 router.get("/mostPopularVideoList", (req, res) => {
@@ -61,7 +63,9 @@ router.get("/mostPopularVideoList", (req, res) => {
     .then(({ data }) => {
       return res.json({ success: true, data });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return res.json({ success: false, err });
+    });
 });
 
 router.post("/recommendedList", (req, res) => {
@@ -83,7 +87,9 @@ router.post("/recommendedList", (req, res) => {
     .then(({ data }) => {
       return res.json({ success: true, data });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return res.json({ success: false, err });
+    });
 });
 
 // 끝
@@ -104,7 +110,9 @@ router.post("/searchListInVideo", (req, res) => {
     .then(({ data }) => {
       return res.json({ success: true, data });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return res.json({ success: false, err });
+    });
 });
 
 router.post("/channelInfo", async (req, res) => {
@@ -159,7 +167,9 @@ router.post("/commentList", (req, res) => {
     .then(({ data }) => {
       return res.json({ success: true, data });
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      return res.json({ success: false, err });
+    });
 });
 
 module.exports = router;
