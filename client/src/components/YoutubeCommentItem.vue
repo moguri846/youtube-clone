@@ -1,11 +1,17 @@
 <template>
   <div class="comment">
     <div class="user-img">
-      <img :src="comment.snippet.topLevelComment.snippet.authorProfileImageUrl" alt="" />
+      <a :href="`${comment.snippet.topLevelComment.snippet.authorChannelUrl}`" target="blank">
+        <img :src="comment.snippet.topLevelComment.snippet.authorProfileImageUrl" alt="" />
+      </a>
     </div>
     <div class="comment-info">
       <div class="comment-info-top">
-        <span class="authorDisplayName">{{ comment.snippet.topLevelComment.snippet.authorDisplayName }}</span>
+        <span class="authorDisplayName">
+          <a :href="`${comment.snippet.topLevelComment.snippet.authorChannelUrl}`" target="blank">
+            {{ comment.snippet.topLevelComment.snippet.authorDisplayName }}
+          </a>
+        </span>
         <span class="publishedAt">{{ sliceDate }}</span>
       </div>
       <div class="comment-info-middle">
@@ -83,8 +89,9 @@ export default {
 .comment > .user-img {
   padding: 0px 15px 15px 0px;
 }
-.comment > .user-img > img {
+.comment > .user-img > a > img {
   border-radius: 50%;
+  cursor: pointer;
 }
 .comment-info {
   display: flex;
@@ -94,6 +101,10 @@ export default {
   display: flex;
 }
 .comment-info > .comment-info-top > div {
+  margin-right: 10px;
+}
+.comment-info > .comment-info-top > .authorDisplayName {
+  cursor: pointer;
   margin-right: 10px;
 }
 .comment-info > .comment-info-middle {
@@ -123,6 +134,13 @@ export default {
 }
 .comment-info > .comment-info-bottom > div {
   margin-right: 10px;
+  cursor: pointer;
+}
+.comment-info > .comment-info-bottom > .likeCount > span {
+  cursor: default;
+}
+.comment-info > .comment-info-bottom > div > i:hover {
+  color: #626567;
 }
 .comment-info > .more-comment {
   margin-top: 10px;
@@ -132,6 +150,7 @@ export default {
 }
 .comment-info > .more-comment {
   color: #065fd4;
+  cursor: pointer;
 }
 .comment-info > .comment-info-bottom > div > .fas {
   color: #909090;
