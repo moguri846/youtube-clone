@@ -47,6 +47,14 @@ export default {
       this.navbar = !this.navbar;
     },
   },
+  mounted() {
+    const {
+      $el: { clientWidth },
+    } = this;
+    if (clientWidth < 808) {
+      this.navbar = false;
+    }
+  },
   components: {
     YoutbueHeader,
     YoutubeNavbar,
@@ -56,9 +64,14 @@ export default {
 
 <style>
 body {
+  width: 100%;
+  height: 100vh;
   margin: 0px;
+  padding: 0px;
 }
 .container {
+  width: 100%;
+  height: 100%;
   display: flex;
   background-color: #f9f9f9;
 }
@@ -80,5 +93,10 @@ h5,
 h6 {
   padding: 0px;
   margin: 0px;
+}
+@media screen and (max-width: 380px) {
+  body {
+    overflow-x: hidden;
+  }
 }
 </style>

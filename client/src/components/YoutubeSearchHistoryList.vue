@@ -32,7 +32,7 @@ export default {
 
 <style scoped>
 .search-history-list {
-  width: 563px;
+  width: 100%;
   position: absolute;
   margin-top: 10px;
   background-color: #ffffff;

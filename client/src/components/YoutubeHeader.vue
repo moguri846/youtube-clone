@@ -15,17 +15,17 @@
 </template>
 
 <script>
-import bus from "../utils/bus.js";
+import bus from '../utils/bus.js';
 
-import YoutubeInput from "./YoutubeInput.vue";
+import YoutubeInput from './YoutubeInput.vue';
 
 export default {
   methods: {
     home() {
-      this.$router.push("/");
+      this.$router.push('/');
     },
     toogleNavbarBtn() {
-      bus.$emit("toogleNavbar");
+      bus.$emit('toogleNavbar');
     },
   },
   components: {
@@ -49,6 +49,7 @@ export default {
 }
 .header > .icon {
   display: flex;
+  /* display: none; */
 }
 .header > .icon > * {
   padding: 10px;
@@ -58,12 +59,35 @@ export default {
   color: red;
 }
 .header > .icon > .fa-youtube::after {
-  content: "YouTube";
+  content: 'YouTube';
   color: black;
   margin-left: 5px;
+}
+.header > .options {
+  min-width: 180px;
 }
 .header > .options > * {
   padding: 10px;
   cursor: pointer;
+}
+.header.mobile > .search {
+  width: 100%;
+}
+.header.mobile > .icon,
+.header.mobile > .options {
+  display: none;
+}
+.search {
+  width: 36.21%;
+}
+@media screen and (max-width: 465px) {
+  .header > .icon > .fa-youtube::after {
+    content: '';
+  }
+}
+@media screen and (max-width: 365px) {
+  .header {
+    padding: 0px;
+  }
 }
 </style>

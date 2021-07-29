@@ -3,12 +3,12 @@
     <input
       type="text"
       v-model="searchValue"
-      @keydown.enter="search"
+      @keydown.enter="enterSearch"
       placeholder="검색"
       @click="openHistory"
       @blur="closeHistory"
     />
-    <button @click="search"><i class="fas fa-search"></i></button>
+    <button @click="clickSearch"><i class="fas fa-search"></i></button>
     <span><i class="fas fa-microphone"></i></span>
     <YoutubeSearchHistoryList
       :historyList="searchHistoryList"
@@ -56,10 +56,27 @@ export default {
         this.historyActive = false;
       }, 100);
     },
-    search() {
+    clickSearch() {
+      const {
+        $el: { clientWidth },
+      } = this;
+      if (clientWidth <= 180) {
+        console.log(this.$el.parentNode);
+        this.$el.classList.toggle('mobile');
+        this.$el.parentNode.classList.toggle('mobile');
+      } else {
+        console.log('else');
+        this.$el.parentNode.classList.remove('mobile');
+        this.$el.classList.remove('mobile');
+        if (this.searchValue !== '') {
+          this.addHistory();
+          this.dispatchFunc('GET_SEARCH_LIST', this.searchValue);
+        }
+      }
+    },
+    enterSearch() {
       if (this.searchValue !== '') {
         this.addHistory();
-
         this.dispatchFunc('GET_SEARCH_LIST', this.searchValue);
       }
     },
@@ -98,10 +115,12 @@ export default {
 
 <style scoped>
 .search {
-  text-align: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 .search > input {
-  width: 550px;
+  width: 84.28%;
   height: 25px;
   position: relative;
   top: 0px;
@@ -122,10 +141,42 @@ export default {
   margin-left: 10px;
   margin-bottom: 1px;
 }
+.search.mobile {
+  min-width: 100%;
+}
+.search.mobile > input {
+  display: inline-block;
+}
 .search > span > .fa-microphone {
+  width: 25px;
+  height: 25px;
+  text-align: center;
   font-size: 23px;
 }
 i {
   cursor: pointer;
+}
+
+@media screen and (max-width: 602px) {
+  .search {
+    width: 100px;
+  }
+  .search > input {
+    display: none;
+  }
+  .search > button {
+    width: 25px;
+    height: 25px;
+    border: none;
+    background-color: #ffffff;
+  }
+  .search > button > .fa-search {
+    font-size: 18px;
+  }
+}
+@media screen and (max-width: 465px) {
+  .search {
+    justify-content: center;
+  }
 }
 </style>

@@ -71,7 +71,6 @@ export default {
 
 <style scoped>
 .navbar {
-  width: 244px;
   max-width: 244px;
   min-width: 72px;
   height: 881px;
@@ -136,7 +135,6 @@ export default {
 .navbar::webkit-scrollbar-track {
   background-color: black;
 }
-
 .navbar > div > h5 {
   padding-left: 27px;
 }
@@ -159,5 +157,14 @@ export default {
 }
 .navbar > div > ul > li > span {
   font-size: 14px;
+}
+@media screen and (max-width: 808px) {
+  .navbar.close {
+    display: none;
+  }
+  .navbar.open {
+    position: absolute;
+    left: 0px;
+  }
 }
 </style>
