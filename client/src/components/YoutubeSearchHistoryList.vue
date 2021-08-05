@@ -32,23 +32,23 @@ export default {
 
 <style scoped>
 .search-history-list {
-  width: 100%;
+  width: 85.38%;
   position: absolute;
+  top: 22px;
+  left: 0px;
   margin-top: 10px;
   background-color: #ffffff;
+  z-index: 10000;
 }
 .search-history-list > .history {
-  position: relative;
+  width: 98.5%;
   display: flex;
   align-items: center;
   padding-left: 10px;
   text-align: left;
   font-size: 18px;
 }
-.search > .search-history-list > .history > .history-text {
-  min-width: 510px;
-  max-width: 510px;
-}
+
 .search-history-list > .history:first-child {
   margin-top: 10px;
 }

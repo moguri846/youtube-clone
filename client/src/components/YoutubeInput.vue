@@ -118,6 +118,7 @@ export default {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  position: relative;
 }
 .search > input {
   width: 84.28%;
