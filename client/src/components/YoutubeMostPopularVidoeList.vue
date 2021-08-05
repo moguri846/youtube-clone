@@ -10,7 +10,7 @@
             <YoutubeMostPopularVidoeItem>
               <div slot="link" @click="pushWatchPage(mostPopular.video)" class="link">
                 <div class="video-thumbnail" slot="video-thumbnail">
-                  <img :src="mostPopular.video.snippet.thumbnails.medium.url" alt="썸네일" width="360" />
+                  <img :src="mostPopular.video.snippet.thumbnails.medium.url" alt="썸네일" />
                 </div>
                 <div class="video-info" slot="video-info">
                   <div class="channel-img" slot="channel-img">
@@ -91,6 +91,9 @@ div {
 .link {
   cursor: pointer;
 }
+.link > .video-thumbnail > img {
+  width: 100%;
+}
 .most-popular-video {
   width: 360px;
   height: 330px;
@@ -132,5 +135,48 @@ div {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media screen and (max-width: 849px) {
+  .most-popular-video {
+    width: 330px;
+    height: 330px;
+  }
+  .link > .video-thumbnail > img {
+    width: 330px;
+  }
+}
+@media screen and (max-width: 700px) {
+  .most-popular-video {
+    width: 270px;
+    height: 270px;
+  }
+  .link > .video-thumbnail > img {
+    width: 270px;
+  }
+}
+@media screen and (max-width: 580px) {
+  .most-popular-video {
+    width: 240px;
+  }
+  .link > .video-thumbnail > img {
+    width: 240px;
+  }
+}
+@media screen and (max-width: 520px) {
+  .most-popular-video {
+    width: 200px;
+  }
+  .link > .video-thumbnail > img {
+    width: 200px;
+  }
+}
+@media screen and (max-width: 440px) {
+  .most-popular-video {
+    width: 100%;
+    height: 330px;
+  }
+  .link > .video-thumbnail > img {
+    width: 100%;
+  }
 }
 </style>
