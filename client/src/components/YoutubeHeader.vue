@@ -90,4 +90,19 @@ export default {
     padding: 0px;
   }
 }
+@media screen and (max-width: 330px) {
+  .header > .search {
+    justify-content: flex-end;
+  }
+  .header > .options {
+    min-width: 90px;
+  }
+  .header > .options > i {
+    display: none;
+  }
+  .header > .options > .fa-bell,
+  .header > .options > .fa-user-circle {
+    display: inline-block;
+  }
+}
 </style>

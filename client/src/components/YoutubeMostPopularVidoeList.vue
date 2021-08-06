@@ -173,7 +173,8 @@ div {
 @media screen and (max-width: 440px) {
   .most-popular-video {
     width: 100%;
-    height: 330px;
+    height: 300px;
+    padding: 15px 0px;
   }
   .link > .video-thumbnail > img {
     width: 100%;
