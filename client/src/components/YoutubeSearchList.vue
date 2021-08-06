@@ -8,7 +8,12 @@
         <li v-for="(search, index) in searchList" :key="index" class="video">
           <YoutubeSearchItem>
             <template v-if="search.video.id.channelId">
-              <a :href="`https://www.youtube.com/channel/${search.video.id.channelId}`" target="blank" slot="link">
+              <a
+                :href="`https://www.youtube.com/channel/${search.video.id.channelId}`"
+                target="blank"
+                slot="link"
+                class="link channel"
+              >
                 <div class="channel-img" slot="channel-img">
                   <img :src="search.video.snippet.thumbnails.medium.url" alt="채널 이미지" />
                 </div>
@@ -31,9 +36,7 @@
                 </div>
                 <div class="video-info" slot="video-info">
                   <div class="video-desc" slot="video-desc">
-                    <h3 class="video-title" slot="video-title">
-                      {{ search.video.snippet.title }}
-                    </h3>
+                    <h3 class="video-title" slot="video-title" v-html="search.video.snippet.title"></h3>
                     <div class="channel-img-title">
                       <div class="channel-img">
                         <img :src="search.channel.snippet.thumbnails.default.url" alt="video.channel.snippet.title" />
@@ -96,12 +99,15 @@ export default {
   justify-content: center;
 }
 .item-list {
-  width: 1096px;
+  /* width: 1096px; */
+  width: 59.85%;
+  /* height: 100vh; */
 }
 .item-list > .video {
   cursor: pointer;
 }
 .video {
+  width: 100%;
   margin: 5px 0px;
 }
 .item > a,
@@ -109,7 +115,6 @@ export default {
   display: flex;
 }
 .item > a > .channel-img {
-  min-width: 320px;
   text-align: center;
   margin-right: 20px;
 }
@@ -142,8 +147,83 @@ export default {
   padding-top: 30px;
 }
 .v-spinner {
+  width: 100%;
+  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media screen and (max-width: 1230px) {
+  .display-list {
+    display: inline-block;
+  }
+  .item-list {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .video {
+    width: 100%;
+  }
+  .item > .link {
+    display: flex;
+  }
+  .item > .link > .video-info > .video-desc {
+    margin: 0px;
+  }
+  .item > .link > .video-info > .video-desc > .video-title {
+    font-size: 18px;
+    font-weight: lighter;
+  }
+  .item > .link > .video-info > .video-desc > .video-description {
+    display: none;
+  }
+  .link.channel > .channel-img {
+    min-width: 320px;
+    margin: 0px;
+  }
+  .link.channel > * {
+    margin: 0px;
+    padding: 0px;
+  }
+  .channel-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .channel-info,
+  .item > .link > .video-info {
+    margin-left: 10px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .display-list {
+    display: block;
+  }
+  .item-list {
+    width: 100%;
+  }
+  .video {
+    width: 100%;
+  }
+  .item > .link {
+    display: flex;
+    flex-direction: column;
+  }
+  .item > .link > .channel-info > .channel-desc > h2 {
+    text-align: center;
+  }
+  .item > .link > .video-thumbnail > img {
+    width: 100%;
+  }
+  .item > .link > .video-info {
+    padding-left: 5px;
+  }
+  .link.channel > .channel-img {
+    min-width: 100%;
+    text-align: center;
+  }
 }
 </style>

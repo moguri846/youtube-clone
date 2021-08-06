@@ -32,9 +32,9 @@ export default {
 
 <style scoped>
 .search-history-list {
-  width: 85.38%;
+  width: 100%;
   position: absolute;
-  top: 22px;
+  top: 30px;
   left: 0px;
   margin-top: 10px;
   background-color: #ffffff;
@@ -48,7 +48,9 @@ export default {
   text-align: left;
   font-size: 18px;
 }
-
+.search-history-list > .history > .history-text {
+  width: 93.2%;
+}
 .search-history-list > .history:first-child {
   margin-top: 10px;
 }
