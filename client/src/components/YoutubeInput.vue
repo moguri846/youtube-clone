@@ -1,5 +1,6 @@
 <template>
   <div class="search">
+    <i class="fas fa-arrow-left" @click="exitInput"></i>
     <input
       type="text"
       v-model="searchValue"
@@ -36,6 +37,8 @@ export default {
     // params에 value가 있으면 dispatch
     if (this.$route.params.value) {
       // input에 value 넣기
+      this.searchValue = this.$route.params.value;
+
       this.dispatchFunc('GET_SEARCH_LIST', this.searchValue);
     }
     // localStorage에서 데이터 가져오기
@@ -48,6 +51,10 @@ export default {
     }
   },
   methods: {
+    exitInput() {
+      this.$el.parentNode.classList.remove('mobile');
+      this.$el.classList.remove('mobile');
+    },
     openHistory() {
       this.historyActive = true;
     },
@@ -66,8 +73,7 @@ export default {
         this.$el.parentNode.classList.toggle('mobile');
       } else {
         console.log('else');
-        this.$el.parentNode.classList.remove('mobile');
-        this.$el.classList.remove('mobile');
+        this.exitInput();
         if (this.searchValue !== '') {
           this.addHistory();
           this.dispatchFunc('GET_SEARCH_LIST', this.searchValue);
@@ -98,8 +104,11 @@ export default {
       localStorage.removeItem(history);
     },
     dispatchFunc(target, value) {
+      this.closeHistory();
+
       // 라우터 이동
-      this.$router.push(`/search_query=${value}`);
+      // 똑같은 라우터 이동 시 발생하는 에러 무시
+      this.$router.push(`/search_query=${value}`).catch(() => {});
 
       bus.$emit('start:spinner');
       this.$store.dispatch(target, value).then(() => {
@@ -145,6 +154,11 @@ export default {
 .search.mobile {
   min-width: 100%;
 }
+.search.mobile > .fa-arrow-left {
+  width: 25px;
+  padding: 10px;
+  display: inline-block;
+}
 .search.mobile > input {
   display: inline-block;
 }
@@ -153,6 +167,9 @@ export default {
   height: 25px;
   text-align: center;
   font-size: 23px;
+}
+.fa-arrow-left {
+  display: none;
 }
 i {
   cursor: pointer;
